@@ -21,3 +21,12 @@ venv/
 # Logs
 logs/
 *.log
+
+# Build
+/target/
+.idea/
+*.iml
+/bin/
+/build/
+/dist/
+/out/
