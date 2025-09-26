@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" 
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.watermark.ui.controller.MainController">
+    
+    <top>
+        <MenuBar>
+            <Menu text="文件">
+                <MenuItem text="导入图片" onAction="#handleImport"/>
+                <MenuItem text="导出图片"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="退出"/>
+            </Menu>
+        </MenuBar>
+    </top>
+    
+    <center>
+        <SplitPane dividerPositions="0.7">
+            <ImageView fx:id="previewImage" fitWidth="600" fitHeight="500" preserveRatio="true"/>
+            <ScrollPane>
+                <VBox spacing="10" padding="10">
+                    <Label text="图片列表:"/>
+                    <ListView fx:id="imageList" prefHeight="150"/>
+                    
+                    <Label text="水印设置:"/>
+                    <TextField fx:id="watermarkText" promptText="输入水印文字"/>
+                    
+                    <Label text="位置:"/>
+                    <ComboBox fx:id="positionSelect"/>
+                    
+                    <Label text="透明度:"/>
+                    <Slider fx:id="opacitySlider" min="0" max="1" value="0.5"/>
+                    
+                    <Button text="应用水印" onAction="#handleApply"/>
+                </VBox>
+            </ScrollPane>
+        </SplitPane>
+    </center>
+</BorderPane>
