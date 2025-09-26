@@ -23,7 +23,7 @@ logs/
 *.log
 
 # Build
-/target/
+**/target/
 .idea/
 *.iml
 /bin/
