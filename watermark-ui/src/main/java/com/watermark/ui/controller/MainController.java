@@ -49,6 +49,43 @@ public class MainController {
     
     @FXML 
     private void handleApply() {
-        // TODO: 应用水印
+        if (currentImages == null || currentImages.isEmpty()) {
+            showAlert("请先导入图片");
+            return;
+        }
+        
+        if (watermarkText.getText().isEmpty()) {
+            showAlert("请输入水印文字");
+            return;
+        }
+        
+        try {
+            File selectedFile = currentImages.get(imageList.getSelectionModel().getSelectedIndex());
+            BufferedImage original = imageService.readImage(selectedFile);
+            
+            WatermarkParam param = new WatermarkParam();
+            param.setText(watermarkText.getText());
+            param.setOpacity((float) opacitySlider.getValue());
+            param.setX(positionSelect.getSelectionModel().getSelectedIndex() % 3);
+            param.setY(positionSelect.getSelectionModel().getSelectedIndex() / 3);
+            
+            BufferedImage watermarked = imageService.addTextWatermark(original, param);
+            previewImage.setImage(convertToFxImage(watermarked));
+            
+        } catch (Exception e) {
+            showAlert("应用水印失败: " + e.getMessage());
+        }
+    }
+    
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("提示");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+    
+    private Image convertToFxImage(BufferedImage image) {
+        return SwingFXUtils.toFXImage(image, null);
     }
 }
