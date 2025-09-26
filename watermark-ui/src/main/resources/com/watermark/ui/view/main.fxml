@@ -36,7 +36,10 @@
                     <Label text="透明度:"/>
                     <Slider fx:id="opacitySlider" min="0" max="1" value="0.5"/>
                     
-                    <Button text="应用水印" onAction="#handleApply"/>
+                    <HBox spacing="10">
+                        <Button text="应用水印" onAction="#handleApply" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+                        <Button text="导出图片" onAction="#handleExport" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+                    </HBox>
                 </VBox>
             </ScrollPane>
         </SplitPane>

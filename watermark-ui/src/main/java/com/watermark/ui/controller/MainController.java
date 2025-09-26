@@ -54,8 +54,38 @@ public class MainController {
             imageList.getItems().clear();
             files.forEach(file -> imageList.getItems().add(file.getName()));
             
-            // 预览第一张图片
+            // 预览第一张图片并选中
             previewImage.setImage(new Image(files.get(0).toURI().toString()));
+            imageList.getSelectionModel().selectFirst();
+        }
+    }
+
+    @FXML
+    private void handleExport() {
+        if (currentImages == null || currentImages.isEmpty()) {
+            showAlert("请先导入并处理图片");
+            return;
+        }
+        
+        File outputDir = FileChooserUtil.showSaveDialog(primaryStage);
+        if (outputDir != null) {
+            try {
+                int index = imageList.getSelectionModel().getSelectedIndex();
+                File originalFile = currentImages.get(index);
+                String fileName = originalFile.getName();
+                
+                // 保存处理后的图片
+                Image outputImage = previewImage.getImage();
+                BufferedImage buffered = SwingFXUtils.fromFXImage(outputImage, null);
+                imageService.saveImage(buffered, 
+                    new File(outputDir, "wm_" + fileName), 
+                    fileName.toLowerCase().endsWith(".png") ? 
+                        ImageFormats.PNG : ImageFormats.JPEG);
+                
+                showAlert("导出成功: " + outputDir.getAbsolutePath());
+            } catch (Exception e) {
+                showAlert("导出失败: " + e.getMessage());
+            }
         }
     }
     

@@ -15,6 +15,10 @@ public class MainApp extends Application {
             getClass().getResource("/com/watermark/ui/view/main.fxml"));
         Parent root = loader.load();
         
+        // 传递primaryStage给控制器
+        MainController controller = loader.getController();
+        controller.setPrimaryStage(primaryStage);
+        
         Scene scene = new Scene(root, 1000, 700);
         primaryStage.setTitle("图片水印工具");
         primaryStage.setScene(scene);
