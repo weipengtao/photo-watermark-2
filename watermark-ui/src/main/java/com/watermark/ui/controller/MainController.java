@@ -1,12 +1,15 @@
 package com.watermark.ui.controller;
 
+import com.watermark.core.domain.WatermarkParam;
 import com.watermark.core.service.ImageService;
 import com.watermark.ui.util.FileChooserUtil;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
 
@@ -24,6 +27,15 @@ public class MainController {
             "左中", "居中", "右中", 
             "左下", "中下", "右下");
         positionSelect.getSelectionModel().select(4); // 默认居中
+        
+        // 图片列表选择监听
+        imageList.getSelectionModel().selectedItemProperty().addListener(
+            (obs, oldVal, newVal) -> {
+                int index = imageList.getSelectionModel().getSelectedIndex();
+                if (index >= 0 && currentImages != null) {
+                    previewImage.setImage(new Image(currentImages.get(index).toURI().toString()));
+                }
+            });
     }
     
     private final ImageService imageService = new ImageService();
