@@ -1,8 +1,14 @@
 package com.watermark.ui.controller;
 
+import com.watermark.core.service.ImageService;
+import com.watermark.ui.util.FileChooserUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import java.io.File;
+import java.util.List;
 
 public class MainController {
     @FXML private ImageView previewImage;
@@ -20,9 +26,25 @@ public class MainController {
         positionSelect.getSelectionModel().select(4); // 默认居中
     }
     
+    private final ImageService imageService = new ImageService();
+    private Stage primaryStage;
+    private List<File> currentImages;
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
     @FXML
     private void handleImport() {
-        // TODO: 实现图片导入
+        List<File> files = FileChooserUtil.showImageOpenDialog(primaryStage);
+        if (files != null && !files.isEmpty()) {
+            currentImages = files;
+            imageList.getItems().clear();
+            files.forEach(file -> imageList.getItems().add(file.getName()));
+            
+            // 预览第一张图片
+            previewImage.setImage(new Image(files.get(0).toURI().toString()));
+        }
     }
     
     @FXML 
