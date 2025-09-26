@@ -23,7 +23,7 @@
         <SplitPane dividerPositions="0.7">
             <ImageView fx:id="previewImage" fitWidth="600" fitHeight="500" preserveRatio="true"/>
             <ScrollPane>
-                <VBox spacing="10" padding="10">
+                <VBox spacing="10">
                     <Label text="图片列表:"/>
                     <ListView fx:id="imageList" prefHeight="150"/>
                     

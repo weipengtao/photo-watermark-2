@@ -2,8 +2,14 @@ package com.watermark.core.service;
 
 import org.apache.commons.imaging.ImageFormats;
 import org.apache.commons.imaging.Imaging;
+import org.apache.commons.imaging.ImageReadException;
+import org.apache.commons.imaging.ImageWriteException;
 import com.watermark.core.domain.WatermarkParam;
 import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.AlphaComposite;
+import java.awt.FontMetrics;
 import java.io.File;
 import java.io.IOException;
 
@@ -12,14 +18,14 @@ public class ImageService {
     /**
      * 读取图片文件
      */
-    public BufferedImage readImage(File inputFile) throws IOException {
+    public BufferedImage readImage(File inputFile) throws IOException, ImageReadException {
         return Imaging.getBufferedImage(inputFile);
     }
 
     /**
      * 保存图片文件
      */
-    public void saveImage(BufferedImage image, File outputFile, ImageFormats format) throws IOException {
+    public void saveImage(BufferedImage image, File outputFile, ImageFormats format) throws IOException, ImageWriteException {
         Imaging.writeImage(image, outputFile, format);
     }
 

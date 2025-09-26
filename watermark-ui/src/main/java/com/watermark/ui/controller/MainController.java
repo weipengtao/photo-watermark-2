@@ -3,6 +3,7 @@ package com.watermark.ui.controller;
 import com.watermark.core.domain.WatermarkParam;
 import com.watermark.core.service.ImageService;
 import com.watermark.ui.util.FileChooserUtil;
+import org.apache.commons.imaging.ImageFormats;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
