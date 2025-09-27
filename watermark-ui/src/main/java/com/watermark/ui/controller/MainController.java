@@ -9,10 +9,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainController {
     @FXML private ImageView previewImage;
@@ -20,6 +23,12 @@ public class MainController {
     @FXML private TextField watermarkText;
     @FXML private Slider opacitySlider;
     @FXML private ComboBox<String> positionSelect;
+    @FXML private ComboBox<String> colorSelect;
+    @FXML private Slider fontSizeSlider;
+    @FXML private Label fontSizeLabel;
+    
+    // 颜色映射表
+    private final Map<String, java.awt.Color> colorMap = new HashMap<>();
 
     public void initialize() {
         // 初始化UI组件
@@ -29,6 +38,17 @@ public class MainController {
             "左下", "中下", "右下");
         positionSelect.getSelectionModel().select(4); // 默认居中
         
+        // 初始化颜色选择器
+        initColorMap();
+        colorSelect.getItems().addAll(colorMap.keySet());
+        colorSelect.getSelectionModel().select("黑色"); // 默认黑色
+        
+        // 初始化字体大小滑块
+        fontSizeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            int fontSize = newVal.intValue();
+            fontSizeLabel.setText(String.valueOf(fontSize));
+        });
+        
         // 图片列表选择监听
         imageList.getSelectionModel().selectedItemProperty().addListener(
             (obs, oldVal, newVal) -> {
@@ -37,6 +57,22 @@ public class MainController {
                     previewImage.setImage(new Image(currentImages.get(index).toURI().toString()));
                 }
             });
+    }
+    
+    /**
+     * 初始化颜色映射表
+     */
+    private void initColorMap() {
+        colorMap.put("黑色", java.awt.Color.BLACK);
+        colorMap.put("白色", java.awt.Color.WHITE);
+        colorMap.put("红色", java.awt.Color.RED);
+        colorMap.put("绿色", java.awt.Color.GREEN);
+        colorMap.put("蓝色", java.awt.Color.BLUE);
+        colorMap.put("黄色", java.awt.Color.YELLOW);
+        colorMap.put("青色", java.awt.Color.CYAN);
+        colorMap.put("粉色", java.awt.Color.PINK);
+        colorMap.put("橙色", java.awt.Color.ORANGE);
+        colorMap.put("灰色", java.awt.Color.GRAY);
     }
     
     private final ImageService imageService = new ImageService();
@@ -111,6 +147,18 @@ public class MainController {
             param.setOpacity((float) opacitySlider.getValue());
             param.setX(positionSelect.getSelectionModel().getSelectedIndex() % 3);
             param.setY(positionSelect.getSelectionModel().getSelectedIndex() / 3);
+            
+            // 设置水印颜色
+            String selectedColor = colorSelect.getValue();
+            if (selectedColor != null && colorMap.containsKey(selectedColor)) {
+                param.setColor(colorMap.get(selectedColor));
+            } else {
+                param.setColor(java.awt.Color.BLACK); // 默认黑色
+            }
+            
+            // 设置水印字体和大小
+            int fontSize = (int) fontSizeSlider.getValue();
+            param.setFont(new java.awt.Font("宋体", java.awt.Font.BOLD, fontSize));
             
             BufferedImage watermarked = imageService.addTextWatermark(original, param);
             previewImage.setImage(convertToFxImage(watermarked));

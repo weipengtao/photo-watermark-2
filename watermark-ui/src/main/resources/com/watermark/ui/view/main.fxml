@@ -36,6 +36,17 @@
                     <Label text="透明度:"/>
                     <Slider fx:id="opacitySlider" min="0" max="1" value="0.5"/>
                     
+                    <Label text="颜色:"/>
+                    <HBox spacing="10">
+                        <ComboBox fx:id="colorSelect" prefWidth="150"/>
+                    </HBox>
+                    
+                    <Label text="字体大小:"/>
+                    <HBox spacing="10">
+                        <Slider fx:id="fontSizeSlider" min="12" max="72" value="24"/>
+                        <Label fx:id="fontSizeLabel" text="24"/>
+                    </HBox>
+                    
                     <HBox spacing="10">
                         <Button text="应用水印" onAction="#handleApply" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
                         <Button text="导出图片" onAction="#handleExport" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
